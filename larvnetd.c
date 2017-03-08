@@ -43,7 +43,7 @@ extern int optind;
 static volatile int reload;
 
 static void usage(const char *progname);
-static void hup_handler(void);
+static void hup_handler(int);
 
 int main(int argc, char **argv)
 {
@@ -261,7 +261,7 @@ static void usage(const char *progname)
   exit(1);
 }
 
-static void hup_handler(void)
+static void hup_handler(int arg)
 {
   reload = 1;
 }
