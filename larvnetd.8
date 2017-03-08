@@ -21,7 +21,7 @@ larvnetd \- Monitor cluster workstations and printers
 .SH DESCRIPTION
 .B larvnetd
 monitors a set of cluster machines and printers given by the file
-.B /etc/athena/larvnet.conf
+.B /usr/local/etc/larvnet.conf
 (see
 .BR larvnet.conf (5))
 or a file specified on the command line with the \-f option.
@@ -41,11 +41,11 @@ monitor.  Also once a minute,
 .B larvnetd
 generates three report files:
 .RS
-.B /var/athena/larvnet.cgroups
+.B /var/lib/larvnet/larvnet.cgroups
 .br
-.B /var/athena/larvnet.clusters
+.B /var/lib/larvnet/larvnet.clusters
 .br
-.B /var/athena/larvnet.printers
+.B /var/lib/larvnet/larvnet.printers
 .RE
 which give the current known status of cluster workstations and
 printers.
@@ -58,13 +58,13 @@ syslogs errors and debugging messages using the local5 facility name.
 .SH NOTES
 Larvnet is monitoring you.
 .SH FILES
-.B /etc/athena/larvnet.conf
+.B /usr/local/etc/larvnet.conf
 .br
-.B /var/athena/larvnet.cgroups
+.B /var/lib/larvnet/larvnet.cgroups
 .br
-.B /var/athena/larvnet.clusters
+.B /var/lib/larvnet/larvnet.clusters
 .br
-.B /var/athena/larvnet.printers
+.B /var/lib/larvnet/larvnet.printers
 .SH "SEE ALSO"
 .BR larvnet.conf (5),
 .BR larvnet.cgroups (5),
