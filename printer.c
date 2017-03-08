@@ -45,9 +45,10 @@ struct printer_poll_args {
 };
 
 static void printer_poll(void *arg);
-static void printer_hes_callback(void *arg, int status, unsigned char *abuf,
-				 int alen);
-static void printer_host_callback(void *arg, int status, struct hostent *host);
+static void printer_hes_callback(void *arg, int status, int timeouts,
+				 unsigned char *abuf, int alen);
+static void printer_host_callback(void *arg, int status, int timeouts,
+				  struct hostent *host);
 static void *make_pargs(struct serverstate *state, struct printer *printer);
 
 void printer_start_polls(struct serverstate *state)
@@ -84,13 +85,13 @@ static void printer_poll(void *arg)
   hesiod_free_string(state->hescontext, hesname);
 }
 
-static void printer_hes_callback(void *arg, int status, unsigned char *abuf,
-				 int alen)
+static void printer_hes_callback(void *arg, int status, int timeouts,
+				 unsigned char *abuf, int alen)
 {
   struct printer_poll_args *pargs = (struct printer_poll_args *) arg;
   struct serverstate *state = pargs->state;
   struct printer *printer = pargs->printer;
-  char **vec = NULL, *p, *q, *errmem;
+  char **vec = NULL, *p, *q;
 
   if (status == ARES_EDESTRUCTION)
     {
@@ -104,8 +105,7 @@ static void printer_hes_callback(void *arg, int status, unsigned char *abuf,
     {
       syslog(LOG_ERR, "printer_hes_callback: could not resolve Hesiod pcap "
 	     "for printer %s: %s", printer->name,
-	     ares_strerror(status, &errmem));
-      ares_free_errmem(errmem);
+	     ares_strerror(status));
       goto failure;
     }
 
@@ -150,7 +150,8 @@ failure:
   printer->timer = timer_set_rel(60, printer_poll, pargs);
 }
 
-static void printer_host_callback(void *arg, int status, struct hostent *host)
+static void printer_host_callback(void *arg, int status, int timeouts,
+				  struct hostent *host)
 {
   struct printer_poll_args *pargs = (struct printer_poll_args *) arg;
   struct printer *printer = pargs->printer;
@@ -158,7 +159,6 @@ static void printer_host_callback(void *arg, int status, struct hostent *host)
   unsigned short port;
   struct servent *servent;
   struct sockaddr_in sin;
-  char *errmem;
 
   if (status == ARES_EDESTRUCTION)
     {
@@ -171,8 +171,7 @@ static void printer_host_callback(void *arg, int status, struct hostent *host)
   if (status != ARES_SUCCESS)
     {
       syslog(LOG_ERR, "printer_host_callback: printer %s can't resolve print "
-	     "server name: %s", printer->name, ares_strerror(status, &errmem));
-      ares_free_errmem(errmem);
+	     "server name: %s", printer->name, ares_strerror(status));
       goto failure;
     }
 

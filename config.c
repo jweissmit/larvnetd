@@ -59,7 +59,6 @@ void reread_config(struct serverstate *state)
   struct machine *machine;
   struct printer *printer;
   int i, j, status;
-  char *errmem;
 
   syslog(LOG_DEBUG, "reread_config");
 
@@ -110,8 +109,7 @@ void reread_config(struct serverstate *state)
   if (status != ARES_SUCCESS)
     {
       syslog(LOG_ALERT, "reread_config: can't reinitialize resolver channel, "
-	     "aborting: %s", ares_strerror(status, &errmem));
-      ares_free_errmem(errmem);
+	     "aborting: %s", ares_strerror(status));
       exit(1);
     }
 

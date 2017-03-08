@@ -58,7 +58,6 @@ int main(int argc, char **argv)
   fd_set readers, writers;
   int c, nofork = 0, fd, i, nfds, count, status;
   const char *progname;
-  char *errmem;
   FILE *fp;
 
   progname = strrchr(argv[0], '/');
@@ -105,8 +104,7 @@ int main(int argc, char **argv)
   if (status != ARES_SUCCESS)
     {
       fprintf(stderr, "Can't initialize resolver: %s\n",
-	      ares_strerror(status, &errmem));
-      ares_free_errmem(errmem);
+	      ares_strerror(status));
       return 1;
     }
 

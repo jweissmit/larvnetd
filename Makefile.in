@@ -18,7 +18,7 @@ DEFS=@DEFS@
 CPPFLAGS=@CPPFLAGS@
 CFLAGS=@CFLAGS@ ${WARN_CFLAGS}
 LDFLAGS=@LDFLAGS@
-LIBS=@HESIOD_LIBS@ @LIBS@ -lares
+LIBS=@HESIOD_LIBS@ @LIBS@ -lcares
 ALL_CFLAGS=${CPPFLAGS} ${CFLAGS} ${DEFS}
 
 OBJS=config.o larvnetd.o printer.o report.o timer.o util.o ws.o

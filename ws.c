@@ -55,7 +55,8 @@ struct wsarg {
   struct machine *machine;
 };
 
-static void poll_callback(void *arg, int status, struct hostent *host);
+static void poll_callback(void *arg, int status, int timeouts,
+			  struct hostent *host);
 static int ws_searchcomp(const void *key, const void *elem);
 static int ws_sortcomp(const void *elem1, const void *elem2);
 
@@ -202,13 +203,14 @@ void ws_sort(struct config *config)
 	ws_sortcomp);
 }
 
-static void poll_callback(void *arg, int status, struct hostent *host)
+static void poll_callback(void *arg, int status, int timeouts,
+			  struct hostent *host)
 {
   struct wsarg *wsarg = (struct wsarg *) arg;
   struct serverstate *state = wsarg->state;
   struct machine *machine = wsarg->machine;
   struct sockaddr_in sin;
-  char dummy = 0, *errmem;
+  char dummy = 0;
 
   free(wsarg);
   if (status != ARES_SUCCESS)
@@ -221,8 +223,7 @@ static void poll_callback(void *arg, int status, struct hostent *host)
       else
 	{
 	  syslog(LOG_ERR, "poll_callback: could not resolve ws name %s: %s",
-		 machine->name, ares_strerror(status, &errmem));
-	  ares_free_errmem(errmem);
+		 machine->name, ares_strerror(status));
 	}
       return;
     }
