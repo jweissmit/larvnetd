@@ -4,6 +4,7 @@ SHELL=/bin/sh
 VPATH=@srcdir@
 INSTALL=@INSTALL@
 INSTALL_PROGRAM=@INSTALL_PROGRAM@
+MKDIR_P=@MKDIR_P@
 srcdir=@srcdir@
 top_srcdir=@top_srcdir@
 prefix=@prefix@
@@ -35,10 +36,10 @@ ${OBJS}: larvnetd.h timer.h
 check:
 
 install:
-	${top_srcdir}/mkinstalldirs ${DESTDIR}${sbindir}
-	${top_srcdir}/mkinstalldirs ${DESTDIR}${includedir}
-	${top_srcdir}/mkinstalldirs ${DESTDIR}${mandir}/man5
-	${top_srcdir}/mkinstalldirs ${DESTDIR}${mandir}/man8
+	${MKDIR_P} ${DESTDIR}${sbindir}
+	${MKDIR_P} ${DESTDIR}${includedir}
+	${MKDIR_P} ${DESTDIR}${mandir}/man5
+	${MKDIR_P} ${DESTDIR}${mandir}/man8
 	${INSTALL_PROGRAM} larvnetd ${DESTDIR}${sbindir}
 	${INSTALL} -m 444 ${srcdir}/larvnetd.8 ${DESTDIR}${mandir}/man8
 	${INSTALL} -m 444 ${srcdir}/larvnet.conf.5 ${DESTDIR}${mandir}/man5
