@@ -40,12 +40,14 @@ install:
 	${MKDIR_P} ${DESTDIR}${includedir}
 	${MKDIR_P} ${DESTDIR}${mandir}/man5
 	${MKDIR_P} ${DESTDIR}${mandir}/man8
+	${MKDIR_P} ${DESTDIR}${includedir}
 	${INSTALL_PROGRAM} larvnetd ${DESTDIR}${sbindir}
 	${INSTALL} -m 444 ${srcdir}/larvnetd.8 ${DESTDIR}${mandir}/man8
 	${INSTALL} -m 444 ${srcdir}/larvnet.conf.5 ${DESTDIR}${mandir}/man5
 	${INSTALL} -m 444 ${srcdir}/larvnet.cgroups.5 ${DESTDIR}${mandir}/man5
 	${INSTALL} -m 444 ${srcdir}/larvnet.clusters.5 ${DESTDIR}${mandir}/man5
 	${INSTALL} -m 444 ${srcdir}/larvnet.printers.5 ${DESTDIR}${mandir}/man5
+	${INSTALL} -m 444 ${srcdir}/larvnet.h ${DESTDIR}${includedir}
 
 clean:
 	rm -f ${OBJS} larvnetd
